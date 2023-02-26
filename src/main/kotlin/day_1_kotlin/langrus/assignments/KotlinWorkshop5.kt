@@ -2,6 +2,9 @@
 
 package day_1_kotlin.langrus.assignments
 
+import day_1_kotlin.langrus.solutions.Bicycle
+import day_1_kotlin.langrus.solutions.Fuelable
+
 // Workshop #5 - inheritance, abstract, interface
 
 // Не исправляй! Дано:
@@ -29,15 +32,58 @@ class Bicycle: Transport(1) {
 //  См. ниже.
 // ? Имена классов и файлов Котлин принято называть с заглавной буквы, в формате "camelCase".
 // Например: "SomeLongClassName"
-//interface ...
+interface Fueable {
+    fun isFull(): Boolean
+    fun fuel()
+}
 
 // TODO 2: Создай свои собственные классы, например "Bus" и "Car".
 //  Эти классы не будут полностью написаны с нуля, они должны расширять общий класс "Transport",
 //  и дополнительно реализовывать придуманный тобой интерфейс.
 // ? Класс может наследовать только один класс, но реализовывать несколько интерфейсов, например:
-// class Kitty(): Cat, Cuteable, Sleepable, Furryable {}
-//class Bus ...
-//class Car ...
+class Bus(passengersCount: Int): Transport(passengersCount), Fueable{
+    private var hasFuel = false
+
+    override fun drive() {
+        if (isFull()) {
+            hasFuel = false
+            println("Driving $passengersCount passengers to destination")
+        } else {
+            println("Don't have fuel, Hey passengers, let's push this thing together!")
+        }
+    }
+
+    override fun isFull(): Boolean = hasFuel
+
+    override fun fuel() {
+        hasFuel = true
+        println("Fueled a bit")
+    }
+}
+
+class Car(passengersCount: Int): Transport(passengersCount), Fueable {
+
+
+        private var hasFuel = false
+
+        override fun drive() {
+            if (isFull()) {
+                println("Driving a car with a speed of light! $passengersCount passengers on board.")
+                hasFuel = false
+
+            } else {
+                println("Don't have fuel.")
+            }
+        }
+
+        override fun isFull(): Boolean = hasFuel
+
+        override fun fuel() {
+            hasFuel = true
+            println("Filled up with gasoline!")
+        }
+}
+
 
 // TODO 3: Протестируй работоспособность твоего транспорта.
 object VehiclesTest {
@@ -52,17 +98,25 @@ object VehiclesTest {
 
     private fun testBus() {
         println("Testing how bus drives...")
-//        val bus = ...
+        val bus = Bus(passengersCount = 10)
+        bus.drive()
+        bus.fuel()
+        bus.drive()
     }
 
     private fun testCar() {
         println("Testing how car drives...")
-//        val car = ...
+        val car = Car(passengersCount = 4)
+        car.drive()
+        car.fuel()
+        car.drive()
     }
 
     private fun testBicycle() {
-        println("Testing how bicycle drives...")
-//        ...
+        println("\nTesting how bicycle drives...")
+        val bicycle = Bicycle()
+        bicycle.drive()
+
     }
 
 
